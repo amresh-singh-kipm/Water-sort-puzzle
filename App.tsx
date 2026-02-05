@@ -1,45 +1,37 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
-
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
-
+import React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import WaterSortGame from './src/screens/GameScreen';
+// import {BannerAd, BannerAdSize} from 'react-native-google-mobile-ads';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import Splash from './src/screens/Splash';
+const Stack = createNativeStackNavigator();
+// const adUnitId = __DEV__
+//   ? 'ca-app-pub-8456758478190776/6188683604'
+//   : 'ca-app-pub-8456758478190776/6188683604';
+// const adUnitId2 = __DEV__
+//   ? 'ca-app-pub-8456758478190776/2007240916'
+//   : 'ca-app-pub-8456758478190776/2007240916';
+const App = () => {
   return (
-    <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
-    </SafeAreaProvider>
+    <NavigationContainer>
+      {/* <BannerAd
+        unitId={adUnitId2}
+        size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+      /> */}
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+        initialRouteName="Splash">
+        <Stack.Screen name="Splash" component={Splash} />
+        <Stack.Screen name="Game" component={WaterSortGame} />
+      </Stack.Navigator>
+      {/* <BannerAd
+        unitId={adUnitId}
+        size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
+      /> */}
+    </NavigationContainer>
   );
-}
-
-function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
-
-  return (
-    <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
-      />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
+};
 
 export default App;
