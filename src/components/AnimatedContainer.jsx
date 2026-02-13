@@ -33,13 +33,13 @@ const AnimatedContainer = ({
   const [selected, setSelected] = useState(null);
   let containerPosition = {
     2: [
-      [-140, 130],
-      [-60, 130],
-      [20, 130],
-      [100, 130],
-      [-110, 320],
-      [-20, 320],
-      [70, 320],
+      [-140, 90],
+      [-60, 90],
+      [20, 90],
+      [100, 90],
+      [-110, 290],
+      [-20, 290],
+      [70, 290],
     ],
   };
 
@@ -58,6 +58,7 @@ const AnimatedContainer = ({
   const [isAnimating, setIsAnimating] = useState(false);
 
   const handlePress = (event, index) => {
+    console.log("skjdfnsdnfkj")
     if (isAnimating) return;
 
     const {pageX, pageY} = event.nativeEvent;
@@ -228,20 +229,29 @@ const AnimatedContainer = ({
                 ]}
               />
             )}
+           {/* <TouchableOpacity onPress={()=>console.log('sdbfjhfdnjksfnjsdbxfjknsdjgnidjfnkkdsnjkf')}>
+            <Text style={{color:'white'}}>sdknfijdnbfgksndlijxfngjsdfngijdnsfijgndfi</Text>
+           </TouchableOpacity> */}
+
             <TouchableOpacity
               onPress={event => handlePress(event, i)}
               key={i}
-              disabled={isAnimating}>
+              disabled={isAnimating}
+              activeOpacity={0.7}
+              hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}
+              pressRetentionOffset={{top: 10, bottom: 10, left: 10, right: 10}}
+              style={{
+                position: 'absolute',
+                top: conta.position[1],
+                left: conta.position[0],
+                zIndex: i === selected ? 999 : 1,
+              }}>
               <Animated.View
                 style={[
                   styles.container1,
                   i == selected && animatedStyle,
                   {
                     transform: [{scale: i == selected ? 1.08 : 1}],
-                    position: 'absolute',
-                    top: conta.position[1],
-                    left: conta.position[0],
-                    zIndex: i === selected ? 999 : -100, // Make the selected container appear on top
                   },
                 ]}>
                 {conta?.color.map((color, index) => (

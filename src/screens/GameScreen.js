@@ -5,12 +5,10 @@ import React, {useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
-  ImageBackground,
   Text,
   TouchableOpacity,
 } from 'react-native';
 
-import BG from '../assets/images/tree.jpeg';
 // import {
 //   AppOpenAd,
 //   BannerAd,
@@ -26,6 +24,8 @@ import {SvgXml} from 'react-native-svg';
 import {allIcon} from '../utils/svgObjects';
 import AnimatedContainer from '../components/AnimatedContainer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import GlowingBackground from '../components/GlowingBackground';
+import SuccessParticles from '../components/SuccessParticles';
 
 const WaterSortGame = () => {
   const availableColors = ['red', '#e6ccff', '#ff99cc', 'pink', 'aqua'];
@@ -286,7 +286,7 @@ const WaterSortGame = () => {
           );
         })}
       </View>
-      <ImageBackground source={BG} style={styles.gameBoard} resizeMode="cover">
+      <GlowingBackground>
         {levelCompleted ? (
           <View
             style={{
@@ -294,8 +294,21 @@ const WaterSortGame = () => {
               justifyContent: 'space-around',
               alignItems: 'center',
               height: '80%',
-              // gap: 10,
             }}>
+            {/* Victory confetti particles */}
+            <SuccessParticles
+              color="#FFD700"
+              position={{left: 50, top: 300}}
+            />
+            <SuccessParticles
+              color="#FF69B4"
+              position={{left: 150, top: 300}}
+            />
+            <SuccessParticles
+              color="#00D4FF"
+              position={{left: 250, top: 300}}
+            />
+            
             <View style={styles.winTitle}>
               <Text
                 style={{
@@ -303,10 +316,14 @@ const WaterSortGame = () => {
                   fontSize: 36,
                   fontWeight: '900',
                   textAlign: 'center',
+                  textShadowColor: '#f5073f',
+                  textShadowOffset: {width: 0, height: 0},
+                  textShadowRadius: 20,
                 }}>
-                AWESOME
+                AWESOME!
               </Text>
             </View>
+            
             <TouchableOpacity style={styles.btn} onPress={handleNextLevel}>
               <Text
                 style={{
@@ -320,10 +337,12 @@ const WaterSortGame = () => {
             </TouchableOpacity>
           </View>
         ) : (
-          <>
-            <Text style={{color: '#fff', fontSize: 36, fontWeight: '900'}}>
-              Level {containers?.level}
-            </Text>
+          <View style={{width: '100%', alignItems: 'center'}}>
+            <View style={styles.levelContainer}>
+              <Text style={styles.levelText}>
+                Level {containers?.level}
+              </Text>
+            </View>
 
             <AnimatedContainer
               setLevelCompleted={setLevelCompleted}
@@ -331,9 +350,9 @@ const WaterSortGame = () => {
               setContainers={setContainers}
               saveToHistory={saveToHistory}
             />
-          </>
+          </View>
         )}
-      </ImageBackground>
+      </GlowingBackground>
     </>
   );
 };
@@ -344,7 +363,29 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: '30%',
   },
-
+  levelContainer: {
+    paddingHorizontal: 30,
+    paddingVertical: 15,
+    borderRadius: 25,
+    backgroundColor: 'rgba(10, 14, 39, 0.6)',
+    borderWidth: 2,
+    borderColor: '#00d4ff',
+    shadowColor: '#00d4ff',
+    shadowOffset: {width: 0, height: 0},
+    shadowOpacity: 0.9,
+    shadowRadius: 20,
+    elevation: 10,
+    marginTop: 90,
+  },
+  levelText: {
+    color: '#fff',
+    fontSize: 36,
+    fontWeight: '900',
+    textAlign: 'center',
+    textShadowColor: '#00d4ff',
+    textShadowOffset: {width: 0, height: 0},
+    textShadowRadius: 15,
+  },
   winTitle: {
     backgroundColor: '#f5073f',
     width: '100%',
@@ -352,6 +393,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 10,
     height: 70,
+    shadowColor: '#f5073f',
+    shadowOffset: {width: 0, height: 0},
+    shadowOpacity: 0.8,
+    shadowRadius: 20,
+    elevation: 10,
   },
   btn: {
     width: 200,
@@ -361,6 +407,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10,
+    shadowColor: '#f5073f',
+    shadowOffset: {width: 0, height: 0},
+    shadowOpacity: 0.9,
+    shadowRadius: 25,
+    elevation: 15,
+    borderWidth: 2,
+    borderColor: '#ff4466',
   },
 });
 
