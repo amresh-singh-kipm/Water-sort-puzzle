@@ -9,15 +9,15 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-// import {
-//   AppOpenAd,
-//   BannerAd,
-//   BannerAdSize,
-//   RewardedAd,
-//   RewardedAdEventType,
-//   RewardedInterstitialAd,
-//   TestIds,
-// } from 'react-native-google-mobile-ads';
+import {
+  AppOpenAd,
+  BannerAd,
+  BannerAdSize,
+  RewardedAd,
+  RewardedAdEventType,
+  RewardedInterstitialAd,
+  TestIds,
+} from 'react-native-google-mobile-ads';
 import {arr, generateLevelData} from '../helper';
 
 import {SvgXml} from 'react-native-svg';
@@ -96,7 +96,7 @@ const WaterSortGame = () => {
   }
 
   function resetLevel() {
-    // showRewardAds();
+    showRewardAds();
     setContainers(pre => ({
       ...pre,
       levelData: JSON.parse(JSON.stringify(originalData)),
@@ -114,13 +114,30 @@ const WaterSortGame = () => {
     } else {
       setHistory([JSON.parse(JSON.stringify(containers))]);
     }
-    // showInterAds();
+    showInterAds();
+  }
+
+  const MAX_EXTRA_TUBES = 1;
+
+  function addTube() {
+    const currentData = containers.levelData;
+    // Count how many empty tubes already exist beyond the original empty ones
+    const emptyTubes = currentData.filter(t => t.color.length === 0).length;
+    if (emptyTubes >= MAX_EXTRA_TUBES + 2) {
+      return; // Already at max allowed extra tubes
+    }
+    saveToHistory();
+    const newTube = {isCompleted: false, color: []};
+    setContainers(prev => ({
+      ...prev,
+      levelData: [...prev.levelData, newTube],
+    }));
   }
 
   function menuFuncChange(data) {
     switch (data) {
       case 0:
-        // showRewardAds();
+        addTube();
         break;
       case 1:
         resetLevel();
@@ -135,78 +152,78 @@ const WaterSortGame = () => {
   }
 
   const interstitialId = __DEV__
-    ? 'ca-app-pub-8456758478190776/5875098079'
-    : 'ca-app-pub-8456758478190776/5875098079';
+    ? TestIds.REWARDED_INTERSTITIAL
+    : 'ca-app-pub-8456758478190776/4832484537';
   const rewardedID = __DEV__
-    ? 'ca-app-pub-8456758478190776/5475712637'
-    : 'ca-app-pub-8456758478190776/5475712637';
+    ? 'ca-app-pub-8456758478190776/2839766073'
+    : 'ca-app-pub-8456758478190776/2839766073';
 
-  // const rewarded = RewardedAd.createForAdRequest(rewardedID, {
-  //   keywords: arr,
-  // });
+  const rewarded = RewardedAd.createForAdRequest(rewardedID, {
+    keywords: arr,
+  });
 
-  // const rewardedInterstitial = RewardedInterstitialAd.createForAdRequest(
-  //   interstitialId,
-  //   {
-  //     keywords: arr,
-  //   },
-  // );
+  const rewardedInterstitial = RewardedInterstitialAd.createForAdRequest(
+    interstitialId,
+    {
+      keywords: arr,
+    },
+  );
 
   const [loaded, setLoaded] = useState(false);
   const [coins, setCoins] = useState(0);
 
-  // useEffect(() => {
-  //   const unsubscribeLoaded = rewarded.addAdEventListener(
-  //     RewardedAdEventType.LOADED,
-  //     () => {
-  //       setLoaded(true);
-  //       console.log('reward ad loaded');
-  //     },
-  //   );
-  //   const unsubscribeEarned = rewarded.addAdEventListener(
-  //     RewardedAdEventType.EARNED_REWARD,
-  //     reward => {
-  //       console.log('User earned reward of ', reward);
-  //       setCoins(pre => pre + 10);
-  //       setLoaded(false);
-  //     },
-  //   );
+  useEffect(() => {
+    const unsubscribeLoaded = rewarded.addAdEventListener(
+      RewardedAdEventType.LOADED,
+      () => {
+        setLoaded(true);
+        console.log('reward ad loaded');
+      },
+    );
+    const unsubscribeEarned = rewarded.addAdEventListener(
+      RewardedAdEventType.EARNED_REWARD,
+      reward => {
+        console.log('User earned reward of ', reward);
+        setCoins(pre => pre + 10);
+        setLoaded(false);
+      },
+    );
 
-  //   // Start loading the rewarded ad straight away
-  //   rewarded.load();
+    // Start loading the rewarded ad straight away
+    rewarded.load();
 
-  //   // Unsubscribe from events on unmount
-  //   return () => {
-  //     unsubscribeLoaded();
-  //     unsubscribeEarned();
-  //   };
-  // }, [loaded]);
+    // Unsubscribe from events on unmount
+    return () => {
+      unsubscribeLoaded();
+      unsubscribeEarned();
+    };
+  }, [loaded]);
 
-  // useEffect(() => {
-  //   const unsubscribeLoaded = rewardedInterstitial.addAdEventListener(
-  //     RewardedAdEventType.LOADED,
-  //     () => {
-  //       setLoaded(true);
-  //       console.log('ads loaded rewardedInterstitial');
-  //     },
-  //   );
-  //   const unsubscribeEarned = rewardedInterstitial.addAdEventListener(
-  //     RewardedAdEventType.EARNED_REWARD,
-  //     reward => {
-  //       setCoins(pre => pre + 5);
-  //       console.log('User earned reward of ', reward);
-  //       setLoaded(false);
-  //     },
-  //   );
+  useEffect(() => {
+    const unsubscribeLoaded = rewardedInterstitial.addAdEventListener(
+      RewardedAdEventType.LOADED,
+      () => {
+        setLoaded(true);
+        console.log('ads loaded rewardedInterstitial');
+      },
+    );
+    const unsubscribeEarned = rewardedInterstitial.addAdEventListener(
+      RewardedAdEventType.EARNED_REWARD,
+      reward => {
+        setCoins(pre => pre + 5);
+        console.log('User earned reward of ', reward);
+        setLoaded(false);
+      },
+    );
 
-  //   // Start loading the rewarded interstitial ad straight away
-  //   rewardedInterstitial.load();
-  //   // Unsubscribe from events on unmount
-  //   return () => {
-  //     unsubscribeLoaded();
-  //     unsubscribeEarned();
-  //   };
-  // }, [loaded]);
+    // Start loading the rewarded interstitial ad straight away
+    rewardedInterstitial.load();
+    // Unsubscribe from events on unmount
+    return () => {
+      unsubscribeLoaded();
+      unsubscribeEarned();
+    };
+  }, [loaded]);
 
   useEffect(() => {
     if (coins === 0) {
@@ -215,33 +232,33 @@ const WaterSortGame = () => {
     AsyncStorage.setItem('coins', coins.toString());
   }, [coins]);
 
-  // function showInterAds() {
-  //   if (loaded) {
-  //     try {
-  //       rewardedInterstitial.show();
-  //     } catch (error) {
-  //       console.error('Error showing ad: ', error);
-  //       rewardedInterstitial.load(); // Reload the ad on failure
-  //     }
-  //   } else {
-  //     console.log('Ad not loaded. Reloading now...');
-  //     rewardedInterstitial.load(); // Ensure ad is ready for next click
-  //   }
-  // }
+  function showInterAds() {
+    if (loaded) {
+      try {
+        rewardedInterstitial.show();
+      } catch (error) {
+        console.error('Error showing ad: ', error);
+        rewardedInterstitial.load(); // Reload the ad on failure
+      }
+    } else {
+      console.log('Ad not loaded. Reloading now...');
+      rewardedInterstitial.load(); // Ensure ad is ready for next click
+    }
+  }
 
-  // function showRewardAds() {
-  //   if (loaded) {
-  //     try {
-  //       rewarded.show();
-  //     } catch (error) {
-  //       console.error('Error showing ad: ', error);
-  //       rewarded.load(); // Reload the ad on failure
-  //     }
-  //   } else {
-  //     console.log('Ad not loaded. Reloading now...');
-  //     rewarded.load(); // Ensure ad is ready for next click
-  //   }
-  // }
+  function showRewardAds() {
+    if (loaded) {
+      try {
+        rewarded.show();
+      } catch (error) {
+        console.error('Error showing ad: ', error);
+        rewarded.load(); // Reload the ad on failure
+      }
+    } else {
+      console.log('Ad not loaded. Reloading now...');
+      rewarded.load(); // Ensure ad is ready for next click
+    }
+  }
 
   return (
     <>
@@ -349,6 +366,7 @@ const WaterSortGame = () => {
               containers={containers}
               setContainers={setContainers}
               saveToHistory={saveToHistory}
+              onAddTube={addTube}
             />
           </View>
         )}

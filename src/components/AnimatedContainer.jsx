@@ -43,21 +43,31 @@ const AnimatedContainer = ({
   const streamX = useSharedValue(0);
   const streamY = useSharedValue(0);
 
-  const containerPosition = {
-    2: [
-      [-140, 90],
-      [-60, 90],
-      [20, 90],
-      [100, 90],
-      [-110, 290],
-      [-20, 290],
-      [70, 290],
-    ],
+  // Dynamically calculate tube positions based on count
+  const computePositions = (count) => {
+    const ROW_SIZE = 4;
+    const SPACING_X = 80;
+    const ROW1_Y = 90;
+    const ROW2_Y = 290;
+
+    const positions = [];
+    for (let i = 0; i < count; i++) {
+      const row = Math.floor(i / ROW_SIZE);
+      const col = i % ROW_SIZE;
+      const totalInRow = Math.min(ROW_SIZE, count - row * ROW_SIZE);
+      const startX = -((totalInRow - 1) * SPACING_X) / 2;
+      const x = startX + col * SPACING_X;
+      const y = row === 0 ? ROW1_Y : ROW2_Y;
+      positions.push([x, y]);
+    }
+    return positions;
   };
+
+  const positions = computePositions(containers?.levelData?.length ?? 0);
 
   const containersWithPosition = containers?.levelData.map((a, i) => ({
     ...a,
-    position: containerPosition['2'][i],
+    position: positions[i],
   }));
 
   // =========================
@@ -222,8 +232,8 @@ const AnimatedContainer = ({
     ) {
       saveToHistory();
 
-      const sourcePos = containerPosition[2][selected];
-      const targetPos = containerPosition[2][index];
+      const sourcePos = positions[selected];
+      const targetPos = positions[index];
 
       startPourAnimation(selected, index, sourcePos, targetPos);
     } else {

@@ -1,4 +1,7 @@
 {
   "name": "BallSorting",
-  "displayName": "Color Cascade"
+  "displayName": "Color Cascade",
+  "react-native-google-mobile-ads": {
+    "android_app_id": "ca-app-pub-8456758478190776~5834575018"
+  }
 }

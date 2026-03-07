@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "770391293444",
+    "project_id": "qversity-app-b1955",
+    "storage_bucket": "qversity-app-b1955.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:770391293444:android:2d781c1ab16e668f507f51",
+        "android_client_info": {
+          "package_name": "com.ballsorting"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2WHj-cLlD7oFRv1N2Iu80h8MvDLR1CZc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:770391293444:android:41b230a833603b04507f51",
+        "android_client_info": {
+          "package_name": "com.qbslmsapps"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2WHj-cLlD7oFRv1N2Iu80h8MvDLR1CZc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
