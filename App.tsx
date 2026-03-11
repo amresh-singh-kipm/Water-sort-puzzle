@@ -1,9 +1,10 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import WaterSortGame from './src/screens/GameScreen';
-import {BannerAd, BannerAdSize} from 'react-native-google-mobile-ads';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { BannerAd, BannerAdSize } from 'react-native-google-mobile-ads';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Splash from './src/screens/Splash';
+
 const Stack = createNativeStackNavigator();
 const adUnitId = __DEV__
   ? 'ca-app-pub-8456758478190776/9862810749'
@@ -22,7 +23,8 @@ const App = () => {
         screenOptions={{
           headerShown: false,
         }}
-        initialRouteName="Splash">
+        initialRouteName="Splash"
+      >
         <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="Game" component={WaterSortGame} />
       </Stack.Navigator>

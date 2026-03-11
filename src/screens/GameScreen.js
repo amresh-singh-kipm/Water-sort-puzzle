@@ -1,14 +1,10 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useEffect, useState} from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
+//
 import {
   AppOpenAd,
   BannerAd,
@@ -18,10 +14,10 @@ import {
   RewardedInterstitialAd,
   TestIds,
 } from 'react-native-google-mobile-ads';
-import {arr, generateLevelData} from '../helper';
+import { arr, generateLevelData } from '../helper';
 
-import {SvgXml} from 'react-native-svg';
-import {allIcon} from '../utils/svgObjects';
+import { SvgXml } from 'react-native-svg';
+import { allIcon } from '../utils/svgObjects';
 import AnimatedContainer from '../components/AnimatedContainer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import GlowingBackground from '../components/GlowingBackground';
@@ -30,13 +26,13 @@ import SuccessParticles from '../components/SuccessParticles';
 const WaterSortGame = () => {
   const availableColors = ['red', '#e6ccff', '#ff99cc', 'pink', 'aqua'];
   const initialData = [
-    {isCompleted: false, color: ['red', 'red', 'red', 'aqua']},
-    {isCompleted: false, color: ['#e6ccff', '#ff99cc', 'pink', 'aqua']},
-    {isCompleted: false, color: ['red', 'aqua', 'aqua', 'pink']},
-    {isCompleted: false, color: ['#e6ccff', '#e6ccff', '#e6ccff', 'pink']},
-    {isCompleted: false, color: ['pink', '#ff99cc', '#ff99cc', '#ff99cc']},
-    {isCompleted: false, color: []},
-    {isCompleted: false, color: []},
+    { isCompleted: false, color: ['red', 'red', 'red', 'aqua'] },
+    { isCompleted: false, color: ['#e6ccff', '#ff99cc', 'pink', 'aqua'] },
+    { isCompleted: false, color: ['red', 'aqua', 'aqua', 'pink'] },
+    { isCompleted: false, color: ['#e6ccff', '#e6ccff', '#e6ccff', 'pink'] },
+    { isCompleted: false, color: ['pink', '#ff99cc', '#ff99cc', '#ff99cc'] },
+    { isCompleted: false, color: [] },
+    { isCompleted: false, color: [] },
   ];
 
   const [containers, setContainers] = useState({
@@ -127,7 +123,7 @@ const WaterSortGame = () => {
       return; // Already at max allowed extra tubes
     }
     saveToHistory();
-    const newTube = {isCompleted: false, color: []};
+    const newTube = { isCompleted: false, color: [] };
     setContainers(prev => ({
       ...prev,
       levelData: [...prev.levelData, newTube],
@@ -262,14 +258,15 @@ const WaterSortGame = () => {
 
   return (
     <>
-      <View style={{zIndex: 100, position: 'absolute', right: 25, top: 10}}>
+      <View style={{ zIndex: 100, position: 'absolute', right: 25, top: 10 }}>
         <Text
           style={{
             color: '#fff',
             fontSize: 20,
             fontWeight: '900',
             textAlign: 'center',
-          }}>
+          }}
+        >
           {coins ?? '0'}
         </Text>
       </View>
@@ -284,7 +281,8 @@ const WaterSortGame = () => {
           flexDirection: 'row',
           justifyContent: 'space-between',
           padding: 15,
-        }}>
+        }}
+      >
         {allIcon?.map((icon, iconIndex) => {
           return (
             <TouchableOpacity
@@ -297,7 +295,8 @@ const WaterSortGame = () => {
                 justifyContent: 'center',
                 borderRadius: 32,
               }}
-              key={iconIndex}>
+              key={iconIndex}
+            >
               <SvgXml xml={icon} width={32} height={32} />
             </TouchableOpacity>
           );
@@ -311,21 +310,22 @@ const WaterSortGame = () => {
               justifyContent: 'space-around',
               alignItems: 'center',
               height: '80%',
-            }}>
+            }}
+          >
             {/* Victory confetti particles */}
             <SuccessParticles
               color="#FFD700"
-              position={{left: 50, top: 300}}
+              position={{ left: 50, top: 300 }}
             />
             <SuccessParticles
               color="#FF69B4"
-              position={{left: 150, top: 300}}
+              position={{ left: 150, top: 300 }}
             />
             <SuccessParticles
               color="#00D4FF"
-              position={{left: 250, top: 300}}
+              position={{ left: 250, top: 300 }}
             />
-            
+
             <View style={styles.winTitle}>
               <Text
                 style={{
@@ -334,13 +334,14 @@ const WaterSortGame = () => {
                   fontWeight: '900',
                   textAlign: 'center',
                   textShadowColor: '#f5073f',
-                  textShadowOffset: {width: 0, height: 0},
+                  textShadowOffset: { width: 0, height: 0 },
                   textShadowRadius: 20,
-                }}>
+                }}
+              >
                 AWESOME!
               </Text>
             </View>
-            
+
             <TouchableOpacity style={styles.btn} onPress={handleNextLevel}>
               <Text
                 style={{
@@ -348,17 +349,16 @@ const WaterSortGame = () => {
                   fontSize: 26,
                   fontWeight: '600',
                   textAlign: 'center',
-                }}>
+                }}
+              >
                 Next Level
               </Text>
             </TouchableOpacity>
           </View>
         ) : (
-          <View style={{width: '100%', alignItems: 'center'}}>
+          <View style={{ width: '100%', alignItems: 'center' }}>
             <View style={styles.levelContainer}>
-              <Text style={styles.levelText}>
-                Level {containers?.level}
-              </Text>
+              <Text style={styles.levelText}>Level {containers?.level}</Text>
             </View>
 
             <AnimatedContainer
@@ -389,7 +389,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#00d4ff',
     shadowColor: '#00d4ff',
-    shadowOffset: {width: 0, height: 0},
+    shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.9,
     shadowRadius: 20,
     elevation: 10,
@@ -401,7 +401,7 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     textAlign: 'center',
     textShadowColor: '#00d4ff',
-    textShadowOffset: {width: 0, height: 0},
+    textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 15,
   },
   winTitle: {
@@ -412,7 +412,7 @@ const styles = StyleSheet.create({
     padding: 10,
     height: 70,
     shadowColor: '#f5073f',
-    shadowOffset: {width: 0, height: 0},
+    shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.8,
     shadowRadius: 20,
     elevation: 10,
@@ -426,7 +426,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 10,
     shadowColor: '#f5073f',
-    shadowOffset: {width: 0, height: 0},
+    shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.9,
     shadowRadius: 25,
     elevation: 15,
